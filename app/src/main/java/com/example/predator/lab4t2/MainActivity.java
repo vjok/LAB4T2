@@ -48,31 +48,11 @@ public class MainActivity extends AppCompatActivity {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        client = new WebSocketClient(uri) {
-
-            @Override
-            public void onOpen(ServerHandshake handshakedata) {
-                Toast.makeText(MainActivity.this, "Connection opened!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onMessage(final String message) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        textView.setText(textView.getText() + "\n" + message);
-                    }
-                });
-            }
-
-            @Override
-            public void onClose(int code, String reason, boolean remote) {
-            }
-
-            @Override
-            public void onError(Exception ex) {
-            }
-        };
+        client = new CustomWebSocketClient(uri,this);
         client.connect();
+    }
+
+    public void addMessage(String text){
+        textView.setText(textView.getText() + "\n" + text);
     }
 }
